@@ -1,6 +1,5 @@
 name: Automated API Tests
 
-# 1. When should this run?
 on:
   push:
     branches:
@@ -14,9 +13,10 @@ jobs:
     name: Run Vitest Suite
     runs-on: ubuntu-latest 
 
+    # ADD THESE THREE LINES RIGHT HERE
     defaults:
       run:
-        working-directory:./backend
+        working-directory: ./backend # Change this to your actual Node.js folder name!
 
     steps:
       - name: Checkout Code
@@ -30,6 +30,5 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Step D: Run your automated tests!
       - name: Execute Tests
         run: npx vitest run
