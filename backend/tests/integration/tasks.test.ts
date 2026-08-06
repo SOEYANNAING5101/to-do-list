@@ -4,7 +4,13 @@ import app from '../../app.js'
 import pool from '../../db/db.js'
 
 
-
+vi.mock('../db/db.js', () => {
+    return {
+        default: {
+            query: vi.fn()
+        }
+    }
+});
 describe("GET /api/task/:id", () => {
     it('should return status 404 if task id is not found', async () => {
         const fakedId = '123e4567-e89b-12d3-a456-426614174000';
