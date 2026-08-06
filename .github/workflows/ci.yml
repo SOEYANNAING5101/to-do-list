@@ -13,10 +13,9 @@ jobs:
     name: Run Vitest Suite
     runs-on: ubuntu-latest 
 
-    # ADD THESE THREE LINES RIGHT HERE
     defaults:
       run:
-        working-directory: ./backend # Change this to your actual Node.js folder name!
+        working-directory: ./backend 
 
     steps:
       - name: Checkout Code
@@ -25,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install Dependencies
         run: npm install
