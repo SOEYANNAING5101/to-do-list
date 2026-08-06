@@ -12,20 +12,21 @@ on:
 jobs:
   run-tests:
     name: Run Vitest Suite
-    runs-on: ubuntu-latest # This is the temporary cloud server
+    runs-on: ubuntu-latest 
+
+    defaults:
+      run:
+        working-directory:./backend
 
     steps:
-      # Step A: Download your code from the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step B: Install Node.js on the server
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Step C: Install all your packages (Express, Vitest, Supertest, etc.)
       - name: Install Dependencies
         run: npm install
 
