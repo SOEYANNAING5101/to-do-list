@@ -8,9 +8,10 @@ export interface Task {
     is_completed: boolean,
     created_at: string
 }
+const baseurl = import.meta.env.VITE_API_URL
 const fetchAllTasks = async (): Promise<Task[]> => {
     try {
-        const response = await fetch('http://localhost:4000/api/tasks', {
+        const response = await fetch(`${baseurl}/api/tasks`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
@@ -44,7 +45,7 @@ export const useAddTask = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (newTask: NewTask) => {
-            const response = await fetch('http://localhost:4000/api/tasks', {
+            const response = await fetch(`${baseurl}/api/tasks`, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(newTask)
@@ -76,7 +77,7 @@ export const useEditTask = () =>{
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (updatedTask:UpdateTask) =>{
-            const response = await fetch(`http://localhost:4000/api/tasks/${updatedTask.task_id}`,{
+            const response = await fetch(`${baseurl}/api/tasks/${updatedTask.task_id}`,{
                 method: 'PUT',
                 headers: {'content-type':'application/json'},
                 body:JSON.stringify(updatedTask)
@@ -101,7 +102,7 @@ export const useDeleteTask = () =>{
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async(task_id:string) =>{
-            const response = await fetch(`http://localhost:4000/api/tasks/${task_id}`,{
+            const response = await fetch(`${baseurl}/api/tasks/${task_id}`,{
                 method: 'DELETE',
                 headers: {'content-type':'application/json'},
             });
