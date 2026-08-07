@@ -8,7 +8,7 @@ export interface Task {
     is_completed: boolean,
     created_at: string
 }
-const baseurl = import.meta.env.VITE_API_URL
+const baseurl = import.meta.env.VITE_API_URL;
 const fetchAllTasks = async (): Promise<Task[]> => {
     try {
         const response = await fetch(`${baseurl}/api/tasks`, {
