@@ -17,6 +17,7 @@ const fetchAllTasks = async (): Promise<Task[]> => {
                 'Content-type': 'application/json'
             }
         });
+
         const result = await response.json();
         if (result.success) {
             return result.data;
@@ -24,11 +25,8 @@ const fetchAllTasks = async (): Promise<Task[]> => {
             throw new Error(result.error);
         }
     } catch (error) {
-        if (error instanceof Error) {
-            console.error("Error fetching task lists", error.message);
-        } else {
-            console.error("Error occurred.");
-        }
+        console.error(error);
+        throw error;
     }
 }
 export const useGetTasks = () => {
@@ -69,57 +67,57 @@ export const useAddTask = () => {
 
 export interface UpdateTask {
     task_id: string;
-    title?:string;
-    description?:string;
-    is_completed?:boolean;
+    title?: string;
+    description?: string;
+    is_completed?: boolean;
 };
-export const useEditTask = () =>{
+export const useEditTask = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (updatedTask:UpdateTask) =>{
-            const response = await fetch(`${baseurl}/api/tasks/${updatedTask.task_id}`,{
+        mutationFn: async (updatedTask: UpdateTask) => {
+            const response = await fetch(`${baseurl}/api/tasks/${updatedTask.task_id}`, {
                 method: 'PUT',
-                headers: {'content-type':'application/json'},
-                body:JSON.stringify(updatedTask)
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(updatedTask)
             });
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error || "Failed to update task");
             }
         },
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({queryKey:['tasks']})
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['tasks'] })
             alert('Updated')
         },
-        onError: (error) =>{
-            console.error("Failed to update task",error.message);
+        onError: (error) => {
+            console.error("Failed to update task", error.message);
             alert('Error updating.')
         }
     })
 }
 
-export const useDeleteTask = () =>{
+export const useDeleteTask = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async(task_id:string) =>{
-            const response = await fetch(`${baseurl}/api/tasks/${task_id}`,{
+        mutationFn: async (task_id: string) => {
+            const response = await fetch(`${baseurl}/api/tasks/${task_id}`, {
                 method: 'DELETE',
-                headers: {'content-type':'application/json'},
+                headers: { 'content-type': 'application/json' },
             });
-            const data = response .json();
-            if(!response.ok){
+            const data = response.json();
+            if (!response.ok) {
                 throw new Error("data.error || 'Error deleting task")
             }
             return data;
         },
-        onSuccess: ()=>{
-            queryClient.invalidateQueries({queryKey:['tasks']});
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
             alert('Task deleted')
         },
-        onError: () =>{
+        onError: () => {
             alert("Error deleting task")
         }
-        
+
     }
     )
 
